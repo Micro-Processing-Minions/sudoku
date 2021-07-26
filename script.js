@@ -3,6 +3,11 @@ var body = document.querySelector('body')
 var newGame = document.querySelector('#newGame')
 var timer = document.querySelector('#timer')
 var hints = document.querySelector('#hints')
+var intro = document.querySelector('.intro')
+var setting = document.querySelector('#setting')
+var model = document.querySelector('.model-box')
+var closeModel = document.querySelector('#closeModel')
+var DifficultyLevel = document.querySelector('#DifficultyLevel')
 
 
 var boardMatrix = ['213789564964153278785426319146532897598674132327918456632891745471265983859347621',
@@ -30,6 +35,22 @@ btn.addEventListener('click', () => {
     body.classList.toggle('dark')
 })
 
+// Settings is Clicked
+setting.addEventListener('click', () => {
+    model.classList.toggle('display')
+},false)
+
+
+// When model Close is Clicked
+closeModel.addEventListener('click', () => {
+    model.classList.toggle('display')
+}, false)
+
+//changeDifficultyLevel
+var difficulty = 50;
+DifficultyLevel.addEventListener('change', () => {
+    difficulty = DifficultyLevel.value
+}, false)
 
 const newGameStart = () => {
     // Settings Defained for the game
@@ -37,10 +58,9 @@ const newGameStart = () => {
     var row = []
     var col = 0
     var rowCount = 1
-    var difficulty = 50;
     var avalibleHints = 10;
     var avalibleWrongOptions = 0;
-
+    
     // A Counter Object to hold the current Selected Box
     var selectedIndex = {
         row: -1,
@@ -52,11 +72,11 @@ const newGameStart = () => {
         let setHidden = false
         random = Math.random() * 100
         if(Math.round(random) > difficulty)
-            setHidden = true
+        setHidden = true
         let node = document.createElement('div')
         node.classList.add('tile')
         if(setHidden)
-            node.innerHTML = num
+        node.innerHTML = num
         if(rowCount % 3 == 0){
             node.classList.add('borderBottom')
         }
@@ -92,7 +112,7 @@ const newGameStart = () => {
         },1000)
     })
     console.log(avalibleWrongOptions)
-
+    
     const checkAllOccurences = (num) => {
         for(let tempRow = 0; tempRow < 9; tempRow++){
             for(let tempCol = 0; tempCol < 9; tempCol++){
@@ -102,7 +122,7 @@ const newGameStart = () => {
             }
         }
     }
-
+    
     // Adding Event Listener to every Cell in this matrix
     for(let row = 0; row < matrix.length; row++){
         for(let col = 0; col < matrix.length; col++){
@@ -110,7 +130,7 @@ const newGameStart = () => {
             matrix[row][col].node.addEventListener('click', (e) => markIt(e, cor))
         }
     }
-
+    
     // This is mark the Row and Column of the box which we clicked
     const markIt = (e, cor) => {
         clearEffects()
@@ -118,48 +138,47 @@ const newGameStart = () => {
         selectedIndex.row = cor.row
         selectedIndex.col = cor.col
         console.log("Clicked");
-    
+        
         // for(let tempCol = 0; tempCol < 9; tempCol++){
-        //     matrix[cor.row][tempCol].node.classList.toggle('hovering');
-        // }
-        // for(let tempRow = 0; tempRow < 9; tempRow++){
-        //     matrix[tempRow][cor.col].node.classList.toggle('hovering');
-        // }
-        matrix[cor.row][cor.col].node.classList.toggle('hover-point');
-        if(!matrix[cor.row][cor.col].safe){
-            console.log("Running");
-            checkAllOccurences(matrix[cor.row][cor.col].node.innerHTML)
-        }
-    }
-    
-    // This will clear all the highlighing of hovering effects
-    const clearEffects = () => {
-        matrix.forEach(row => {
-            row.forEach(col => {
-                col.node.classList.remove('hovering')   
-                col.node.classList.remove('hover-point')
-            })   
-        })
-    }
-    
-    // this will remove the highlighting from Collision Numbers in the row and column 
-    const clearWrongSelection = (node) => {
-        node.classList.remove('wrong_selection')
-    }
-    
-    // This will Clear the default Selected block text color
-    const clearDefaultColor = (node) => {
-        node.classList.remove('default_text_color')
-        node.style.color = '#9dda52';
-    }
-    
-    console.log(options)
-    
-    
-    // WHen we click a Box.. This will get Triggered
-    options.forEach(option => {
-        option.addEventListener('click', () => {
-            let item = matrix[selectedIndex.row][selectedIndex.col]
+            //     matrix[cor.row][tempCol].node.classList.toggle('hovering');
+            // }
+            // for(let tempRow = 0; tempRow < 9; tempRow++){
+                //     matrix[tempRow][cor.col].node.classList.toggle('hovering');
+                // }
+                matrix[cor.row][cor.col].node.classList.toggle('hover-point');
+                if(!matrix[cor.row][cor.col].safe){
+                    console.log("Running");
+                    checkAllOccurences(matrix[cor.row][cor.col].node.innerHTML)
+                }
+            }
+            
+            // This will clear all the highlighing of hovering effects
+            const clearEffects = () => {
+                matrix.forEach(row => {
+                    row.forEach(col => {
+                        col.node.classList.remove('hovering')   
+                        col.node.classList.remove('hover-point')
+                    })   
+                })
+            }
+            
+            // this will remove the highlighting from Collision Numbers in the row and column 
+            const clearWrongSelection = (node) => {
+                node.classList.remove('wrong_selection')
+            }
+            
+            // This will Clear the default Selected block text color
+            const clearDefaultColor = (node) => {
+                node.classList.remove('default_text_color')
+            }
+            
+            console.log(options)
+            
+            
+            // WHen we click a Box.. This will get Triggered
+            options.forEach(option => {
+                option.addEventListener('click', () => {
+                    let item = matrix[selectedIndex.row][selectedIndex.col]
             let row = selectedIndex.row
             let col = selectedIndex.col
             if(item.safe){
@@ -186,15 +205,15 @@ const newGameStart = () => {
         matrix[row][col].node.classList.add('default_text_color')
         for(let tempCol = 0; tempCol < 9; tempCol++){
             if(matrix[row][tempCol].node.innerHTML == node.innerHTML)
-                matrix[row][tempCol].node.classList.add('wrong_selection')
+            matrix[row][tempCol].node.classList.add('wrong_selection')
             else
-                clearWrongSelection(matrix[row][tempCol].node)
+            clearWrongSelection(matrix[row][tempCol].node)
         }
         for(let tempRow = 0; tempRow < 9; tempRow++){
             if(matrix[tempRow][col].node.innerHTML == node.innerHTML)
-                matrix[tempRow][col].node.classList.add('wrong_selection')
+            matrix[tempRow][col].node.classList.add('wrong_selection')
             else
-                clearWrongSelection(matrix[tempRow][col].node)
+            clearWrongSelection(matrix[tempRow][col].node)
         }
     }
     
@@ -226,34 +245,34 @@ const newGameStart = () => {
         switch(key){
             case 'Digit1':
                 return 1;
-            case 'Digit2':
-                return 2;
-            case 'Digit3':
-                return 3;
-            case 'Digit4':
-                return 4;
-            case 'Digit5':
-                return 5;
-            case 'Digit6':
-                return 6;
-            case 'Digit7':
-                return 7;
-            case 'Digit8':
-                return 8;
-            case 'Digit9':
-                return 9;
-            default:
-                return key;
-        }
-    }
-    
-    
-    const handleKeyEvent = (e) => {
-        console.log(e.key);
-        if(selectedIndex.row !== -1){
-            console.log("working");
-            let option = mapKeysWithKeyboard(e.key)
-            let item = matrix[selectedIndex.row][selectedIndex.col]
+                case 'Digit2':
+                    return 2;
+                    case 'Digit3':
+                        return 3;
+                        case 'Digit4':
+                            return 4;
+                            case 'Digit5':
+                                return 5;
+                                case 'Digit6':
+                                    return 6;
+                                    case 'Digit7':
+                                        return 7;
+                                        case 'Digit8':
+                                            return 8;
+                                            case 'Digit9':
+                                                return 9;
+                                                default:
+                                                    return key;
+                                                }
+                                            }
+                                            
+                                            
+                                            const handleKeyEvent = (e) => {
+                                                console.log(e.key);
+                                                if(selectedIndex.row !== -1){
+                                                    console.log("working");
+                                                    let option = mapKeysWithKeyboard(e.key)
+                                                    let item = matrix[selectedIndex.row][selectedIndex.col]
             let row = selectedIndex.row
             let col = selectedIndex.col
             if(item.safe){
@@ -272,3 +291,7 @@ const newGameStart = () => {
 }
 
 newGame.addEventListener('click', newGameStart, false)
+
+
+// Start Game if Clicked on intro Button
+intro.addEventListener('click', newGameStart, false)

@@ -62,6 +62,10 @@ main {
   /* transform: translate(30%, 10%); */
 }
 
+body.dark main {
+  border: 5px solid white;
+}
+
 #options {
   /* width: 100px; */
   height: fit-content;
@@ -236,8 +240,7 @@ span.timer {
 }
 
 .lightbulb:hover {
-  filter: blur(1px);
-  color: yellow;
+  color: rgb(168, 168, 50);
 }
 
 #logo {
@@ -262,7 +265,59 @@ body.dark .timer {
   grid-column: 1/10;
   width: 100%;
   height: 100%;
+  min-height: 500px;
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: filter 1s;
+}
+
+body.dark .intro {
+  color: white;
+}
+
+.intro:hover {
+  cursor: pointer;
+  filter: opacity(0.5);
+}
+
+/* model Popup Menu */
+.model-box {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  left: 0;
+  position: absolute;
+  border: 2px solid;
+  background-color: rgba(0, 0, 0, 0.5);
+  transition: all 200ms;
+  visibility: hidden;
+}
+.model {
+  position: relative;
+  height: 30%;
+  width: 50%;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-size: 2em;
+}
+.model #closeModel {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  cursor: pointer;
+}
+.display {
+  visibility: visible;
+}
+
+select {
+  height: 50px;
+  font-size: 15px;
 }
